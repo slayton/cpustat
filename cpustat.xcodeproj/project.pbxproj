@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11377784163974E40021638B /* SysMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11377782163974E40021638B /* SysMonitor.cpp */; };
 		11EAAFE11638A6BD001855D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE01638A6BD001855D2 /* Cocoa.framework */; };
 		11EAAFEB1638A6BD001855D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFE91638A6BD001855D2 /* InfoPlist.strings */; };
 		11EAAFED1638A6BD001855D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFEC1638A6BD001855D2 /* main.m */; };
 		11EAAFF11638A6BD001855D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFEF1638A6BD001855D2 /* Credits.rtf */; };
-		11EAAFF41638A6BD001855D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFF31638A6BD001855D2 /* AppDelegate.m */; };
+		11EAAFF41638A6BD001855D2 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFF31638A6BD001855D2 /* AppDelegate.mm */; };
 		11EAAFF71638A6BD001855D2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFF51638A6BD001855D2 /* MainMenu.xib */; };
 		11EAAFFF1638A6BD001855D2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFFE1638A6BD001855D2 /* SenTestingKit.framework */; };
 		11EAB0001638A6BD001855D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE01638A6BD001855D2 /* Cocoa.framework */; };
-		11EAB0081638A6BD001855D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11EAB0061638A6BD001855D2 /* InfoPlist.strings */; };
-		11EAB00B1638A6BD001855D2 /* cpustatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 11EAB00A1638A6BD001855D2 /* cpustatTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11377782163974E40021638B /* SysMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SysMonitor.cpp; sourceTree = "<group>"; };
+		11377783163974E40021638B /* SysMonitor.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = SysMonitor.h; sourceTree = "<group>"; };
 		11EAAFDC1638A6BD001855D2 /* cpustat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cpustat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFE01638A6BD001855D2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		11EAAFE31638A6BD001855D2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,14 +42,10 @@
 		11EAAFEE1638A6BD001855D2 /* cpustat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cpustat-Prefix.pch"; sourceTree = "<group>"; };
 		11EAAFF01638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		11EAAFF21638A6BD001855D2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		11EAAFF31638A6BD001855D2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		11EAAFF31638A6BD001855D2 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		11EAAFF61638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		11EAAFFD1638A6BD001855D2 /* cpustatTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cpustatTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFFE1638A6BD001855D2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		11EAB0051638A6BD001855D2 /* cpustatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cpustatTests-Info.plist"; sourceTree = "<group>"; };
-		11EAB0071638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		11EAB0091638A6BD001855D2 /* cpustatTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpustatTests.h; sourceTree = "<group>"; };
-		11EAB00A1638A6BD001855D2 /* cpustatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cpustatTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +73,6 @@
 			isa = PBXGroup;
 			children = (
 				11EAAFE61638A6BD001855D2 /* cpustat */,
-				11EAB0031638A6BD001855D2 /* cpustatTests */,
 				11EAAFDF1638A6BD001855D2 /* Frameworks */,
 				11EAAFDD1638A6BD001855D2 /* Products */,
 			);
@@ -115,9 +111,11 @@
 			isa = PBXGroup;
 			children = (
 				11EAAFF21638A6BD001855D2 /* AppDelegate.h */,
-				11EAAFF31638A6BD001855D2 /* AppDelegate.m */,
+				11EAAFF31638A6BD001855D2 /* AppDelegate.mm */,
 				11EAAFF51638A6BD001855D2 /* MainMenu.xib */,
 				11EAAFE71638A6BD001855D2 /* Supporting Files */,
+				11377782163974E40021638B /* SysMonitor.cpp */,
+				11377783163974E40021638B /* SysMonitor.h */,
 			);
 			path = cpustat;
 			sourceTree = "<group>";
@@ -130,25 +128,6 @@
 				11EAAFEC1638A6BD001855D2 /* main.m */,
 				11EAAFEE1638A6BD001855D2 /* cpustat-Prefix.pch */,
 				11EAAFEF1638A6BD001855D2 /* Credits.rtf */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		11EAB0031638A6BD001855D2 /* cpustatTests */ = {
-			isa = PBXGroup;
-			children = (
-				11EAB0091638A6BD001855D2 /* cpustatTests.h */,
-				11EAB00A1638A6BD001855D2 /* cpustatTests.m */,
-				11EAB0041638A6BD001855D2 /* Supporting Files */,
-			);
-			path = cpustatTests;
-			sourceTree = "<group>";
-		};
-		11EAB0041638A6BD001855D2 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				11EAB0051638A6BD001855D2 /* cpustatTests-Info.plist */,
-				11EAB0061638A6BD001855D2 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -234,7 +213,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11EAB0081638A6BD001855D2 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +240,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				11EAAFED1638A6BD001855D2 /* main.m in Sources */,
-				11EAAFF41638A6BD001855D2 /* AppDelegate.m in Sources */,
+				11EAAFF41638A6BD001855D2 /* AppDelegate.mm in Sources */,
+				11377784163974E40021638B /* SysMonitor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,7 +249,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11EAB00B1638A6BD001855D2 /* cpustatTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,14 +285,6 @@
 				11EAAFF61638A6BD001855D2 /* en */,
 			);
 			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		11EAB0061638A6BD001855D2 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				11EAB0071638A6BD001855D2 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -446,6 +416,7 @@
 				11EAB0101638A6BD001855D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		11EAB0111638A6BD001855D2 /* Build configuration list for PBXNativeTarget "cpustatTests" */ = {
 			isa = XCConfigurationList;
@@ -454,6 +425,7 @@
 				11EAB0131638A6BD001855D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
