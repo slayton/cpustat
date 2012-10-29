@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Stuart Layton. All rights reserved.
 //
 
+#import "SysMonitor.h"
 #import <Cocoa/Cocoa.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
@@ -19,11 +20,14 @@
     unsigned numCPUs;
     NSTimer *updateTimer;
     NSLock *CPUUsageLock;
+    SysMonitor monitor;
+    
 }
 @property (assign) IBOutlet NSWindow *window;
 
 @property (nonatomic) float timeOut;
 @property (nonatomic) bool timerRunning;
+@property  SysMonitor monitor;
 
 -(void) startTimer;
 -(void) timerExpired;
