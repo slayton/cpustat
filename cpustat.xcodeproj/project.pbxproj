@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		11377784163974E40021638B /* SysMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11377782163974E40021638B /* SysMonitor.cpp */; };
+		1189CCBD163F3BE200027F47 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1189CCBC163F3BE200027F47 /* icon.icns */; };
 		11EAAFE11638A6BD001855D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE01638A6BD001855D2 /* Cocoa.framework */; };
 		11EAAFEB1638A6BD001855D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFE91638A6BD001855D2 /* InfoPlist.strings */; };
 		11EAAFED1638A6BD001855D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFEC1638A6BD001855D2 /* main.m */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		11377782163974E40021638B /* SysMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SysMonitor.cpp; sourceTree = "<group>"; };
 		11377783163974E40021638B /* SysMonitor.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = SysMonitor.h; sourceTree = "<group>"; };
+		1189CCBC163F3BE200027F47 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		11EAAFDC1638A6BD001855D2 /* cpustat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cpustat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFE01638A6BD001855D2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		11EAAFE31638A6BD001855D2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -72,6 +74,7 @@
 		11EAAFD11638A6BC001855D2 = {
 			isa = PBXGroup;
 			children = (
+				1189CCBC163F3BE200027F47 /* icon.icns */,
 				11EAAFE61638A6BD001855D2 /* cpustat */,
 				11EAAFDF1638A6BD001855D2 /* Frameworks */,
 				11EAAFDD1638A6BD001855D2 /* Products */,
@@ -206,6 +209,7 @@
 				11EAAFEB1638A6BD001855D2 /* InfoPlist.strings in Resources */,
 				11EAAFF11638A6BD001855D2 /* Credits.rtf in Resources */,
 				11EAAFF71638A6BD001855D2 /* MainMenu.xib in Resources */,
+				1189CCBD163F3BE200027F47 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
