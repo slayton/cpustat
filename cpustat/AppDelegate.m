@@ -7,36 +7,44 @@
 //
 
 #import "AppDelegate.h"
-#import <sys/sysctl.h>
-#import <mach/host_info.h>
-#import <mach/mach_host.h>
-#import <mach/task_info.h>
-#import <mach/task.h>
+
 
 @implementation AppDelegate
+@synthesize monitor;
+@synthesize timerRunning;
+@synthesize timeOut;
+@synthesize iconMaker;
+
+//@synthesize iconImage;
+//@synthesize iconAllocated;
+#define ICON_W 1024
+#define ICON_H 1024
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    NSLog(@"applicationDidFinishLaunching!");
+
+    // Initialize the instance vars
     timerRunning = false;
-    timeOut = 1;
-    NSLog(@"Application Loaded!");
+    timeOut = .5;
+
+    // Instantiate the icon maker, set the mask, and drawing area
     
-    int mib[2U] = { CTL_HW, HW_NCPU };
-    size_t sizeOfNumCPUs = sizeof(numCPUs);
-    int status = sysctl(mib, 2U, &numCPUs, &sizeOfNumCPUs, NULL, 0U);
+    iconMaker = [[IconMaker alloc] initWithSize:NSMakeSize(ICON_W, ICON_H)];
+    iconMaker.iconMask = [NSImage imageNamed:@"frame.png"];
     
-    if(status)
-        numCPUs = 1;
+    [iconMaker setRenderBounds: NSMakeRect(32, 68, ICON_W - 32, ICON_H - 68) ];
     
-    CPUUsageLock = [[NSLock alloc] init];
-    
+    monitor = [[SystemMonitor alloc] init];
+    // Start the timer!
+
     [self startTimer];
+    [self timerExpired]; // run once to update immediately!
     
 }
 
 -(void) startTimer{
-    NSLog(@"Starting the timer!");
+    NSLog(@"AppDelegate::startTimer()");
     [NSTimer scheduledTimerWithTimeInterval: timeOut
                                      target: self
                                    selector:@selector(timerExpired)
@@ -45,86 +53,27 @@
 }
 
 -(void) timerExpired{
-    NSLog(@"timer expired");
-    float cpu = [self getCpuPercentUsasge];
-    float mem = [self getMemPercentFree];
-    float net = [self getNetUsage];
+
+    [monitor pollCpuUsage];
+    
+    [self updateDockIcon];
 }
 
--(float) getCpuPercentUsasge{
-    natural_t numCPUsU = 0U;
+-(float) getCpuPercentUsasge{ return -1; }
+-(float) getMemPercentFree{ return -1; }
+-(float) getNetUsage{ return -1; }
 
-    kern_return_t err = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
-
-    if(err == KERN_SUCCESS) {
-        [CPUUsageLock lock];
-        NSLog(@"getCpuPercentUsage");
-
-        for(unsigned i = 0U; i < numCPUs; ++i) {
-            float inUse, total;
-            if(prevCpuInfo) {
-                inUse = (
-                         (cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER]   - prevCpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER])
-                         + (cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM] - prevCpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM])
-                         + (cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE]   - prevCpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE])
-                         );
-                total = inUse + (cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE] - prevCpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE]);
-            } else {
-                inUse = cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER] + cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM] + cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE];
-                total = inUse + cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE];
-            }
-            
-            NSLog(@"Core: %u Usage: %f",i,inUse / total);
-        }
-        [CPUUsageLock unlock];
-        
-        if(prevCpuInfo) {
-            size_t prevCpuInfoSize = sizeof(integer_t) * numPrevCpuInfo;
-            vm_deallocate(mach_task_self(), (vm_address_t)prevCpuInfo, prevCpuInfoSize);
-        }
-        
-        prevCpuInfo = cpuInfo;
-        numPrevCpuInfo = numCpuInfo;
-        
-        cpuInfo = NULL;
-        numCpuInfo = 0U;
-    } else {
-        NSLog(@"Error!");
-        [NSApp terminate:nil];
-    }
-    return 1;
-}
--(float) getMemPercentFree{
+-(void) updateDockIcon{
+    //NSLog(@"Updating dock icon!");
     
-    int mib[6];
-    mib[0] = CTL_HW;
-    mib[1] = HW_PAGESIZE;
+//    NSString *str = [NSString stringWithFormat:@"CPU "];
+//    for (int i=0; i< [monitor numCPUs]; i++ ){
+//        str = [str stringByAppendingFormat:@"%d:%3.3f ", i, [monitor getPerCpu:i]];
+//    }
+//    NSLog(str);
     
-    int pagesize;
-    size_t length;
-    length = sizeof (pagesize);
-    if (sysctl (mib, 2, &pagesize, &length, NULL, 0) < 0)
-    {
-        fprintf (stderr, "getting page size");
-    }
-    
-    mach_msg_type_number_t count = HOST_VM_INFO_COUNT;
-    
-    vm_statistics_data_t vmstat;
-    if (host_statistics (mach_host_self (), HOST_VM_INFO, (host_info_t) &vmstat, &count) != KERN_SUCCESS)
-    {
-        fprintf (stderr, "Failed to get VM statistics.");
-    }
-    
-    double total = vmstat.wire_count + vmstat.active_count + vmstat.inactive_count + vmstat.free_count;
-    double perFree = (vmstat.free_count + vmstat.inactive_count) / total;
-    
-    NSLog( [NSString stringWithFormat:@"PercentMemFree:%3.3f\n",  perFree]);
-
-    return perFree;
-}
--(float) getNetUsage{
-    return 1;
+    NSImage *iconImage = [iconMaker generateTestIcon];
+    [NSApp setApplicationIconImage:iconImage];
 }
 
 @end

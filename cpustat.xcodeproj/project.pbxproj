@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11377784163974E40021638B /* SysMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11377782163974E40021638B /* SysMonitor.cpp */; };
+		117BAE2E164220ED00715B84 /* SystemMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 117BAE2D164220ED00715B84 /* SystemMonitor.m */; };
+		117BAE3116422F8A00715B84 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 117BAE3016422F8A00715B84 /* frame.png */; };
 		1189CCBD163F3BE200027F47 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1189CCBC163F3BE200027F47 /* icon.icns */; };
+		11D64F981640B71E00991DFD /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE31638A6BD001855D2 /* AppKit.framework */; };
+		11D64FBB1640BDB500991DFD /* IconMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D64FBA1640BDB500991DFD /* IconMaker.m */; };
 		11EAAFE11638A6BD001855D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE01638A6BD001855D2 /* Cocoa.framework */; };
 		11EAAFEB1638A6BD001855D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFE91638A6BD001855D2 /* InfoPlist.strings */; };
 		11EAAFED1638A6BD001855D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFEC1638A6BD001855D2 /* main.m */; };
 		11EAAFF11638A6BD001855D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFEF1638A6BD001855D2 /* Credits.rtf */; };
-		11EAAFF41638A6BD001855D2 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFF31638A6BD001855D2 /* AppDelegate.mm */; };
+		11EAAFF41638A6BD001855D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFF31638A6BD001855D2 /* AppDelegate.m */; };
 		11EAAFF71638A6BD001855D2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFF51638A6BD001855D2 /* MainMenu.xib */; };
 		11EAAFFF1638A6BD001855D2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFFE1638A6BD001855D2 /* SenTestingKit.framework */; };
 		11EAB0001638A6BD001855D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE01638A6BD001855D2 /* Cocoa.framework */; };
@@ -30,9 +33,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		11377782163974E40021638B /* SysMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SysMonitor.cpp; sourceTree = "<group>"; };
-		11377783163974E40021638B /* SysMonitor.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = SysMonitor.h; sourceTree = "<group>"; };
+		117BAE2C164220ED00715B84 /* SystemMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMonitor.h; sourceTree = "<group>"; };
+		117BAE2D164220ED00715B84 /* SystemMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMonitor.m; sourceTree = "<group>"; };
+		117BAE3016422F8A00715B84 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = frame.png; path = ../graphics/frame.png; sourceTree = "<group>"; };
 		1189CCBC163F3BE200027F47 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		11D64F911640B59600991DFD /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		11D64F931640B5F400991DFD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		11D64F951640B63300991DFD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		11D64FB91640BDB500991DFD /* IconMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconMaker.h; sourceTree = "<group>"; };
+		11D64FBA1640BDB500991DFD /* IconMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconMaker.m; sourceTree = "<group>"; };
 		11EAAFDC1638A6BD001855D2 /* cpustat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cpustat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFE01638A6BD001855D2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		11EAAFE31638A6BD001855D2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -44,7 +53,7 @@
 		11EAAFEE1638A6BD001855D2 /* cpustat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cpustat-Prefix.pch"; sourceTree = "<group>"; };
 		11EAAFF01638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		11EAAFF21638A6BD001855D2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		11EAAFF31638A6BD001855D2 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		11EAAFF31638A6BD001855D2 /* AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.m; sourceTree = "<group>"; };
 		11EAAFF61638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		11EAAFFD1638A6BD001855D2 /* cpustatTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cpustatTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFFE1638A6BD001855D2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -55,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11D64F981640B71E00991DFD /* AppKit.framework in Frameworks */,
 				11EAAFE11638A6BD001855D2 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,9 +81,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		117BAE3216422F9300715B84 /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				117BAE3016422F8A00715B84 /* frame.png */,
+			);
+			name = graphics;
+			sourceTree = "<group>";
+		};
 		11EAAFD11638A6BC001855D2 = {
 			isa = PBXGroup;
 			children = (
+				11D64F951640B63300991DFD /* QuartzCore.framework */,
+				11D64F931640B5F400991DFD /* CoreGraphics.framework */,
+				11D64F911640B59600991DFD /* ApplicationServices.framework */,
 				1189CCBC163F3BE200027F47 /* icon.icns */,
 				11EAAFE61638A6BD001855D2 /* cpustat */,
 				11EAAFDF1638A6BD001855D2 /* Frameworks */,
@@ -114,11 +135,14 @@
 			isa = PBXGroup;
 			children = (
 				11EAAFF21638A6BD001855D2 /* AppDelegate.h */,
-				11EAAFF31638A6BD001855D2 /* AppDelegate.mm */,
+				11EAAFF31638A6BD001855D2 /* AppDelegate.m */,
 				11EAAFF51638A6BD001855D2 /* MainMenu.xib */,
+				11D64FB91640BDB500991DFD /* IconMaker.h */,
+				11D64FBA1640BDB500991DFD /* IconMaker.m */,
+				117BAE2C164220ED00715B84 /* SystemMonitor.h */,
+				117BAE2D164220ED00715B84 /* SystemMonitor.m */,
 				11EAAFE71638A6BD001855D2 /* Supporting Files */,
-				11377782163974E40021638B /* SysMonitor.cpp */,
-				11377783163974E40021638B /* SysMonitor.h */,
+				117BAE3216422F9300715B84 /* graphics */,
 			);
 			path = cpustat;
 			sourceTree = "<group>";
@@ -210,6 +234,7 @@
 				11EAAFF11638A6BD001855D2 /* Credits.rtf in Resources */,
 				11EAAFF71638A6BD001855D2 /* MainMenu.xib in Resources */,
 				1189CCBD163F3BE200027F47 /* icon.icns in Resources */,
+				117BAE3116422F8A00715B84 /* frame.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,8 +269,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				11EAAFED1638A6BD001855D2 /* main.m in Sources */,
-				11EAAFF41638A6BD001855D2 /* AppDelegate.mm in Sources */,
-				11377784163974E40021638B /* SysMonitor.cpp in Sources */,
+				11EAAFF41638A6BD001855D2 /* AppDelegate.m in Sources */,
+				11D64FBB1640BDB500991DFD /* IconMaker.m in Sources */,
+				117BAE2E164220ED00715B84 /* SystemMonitor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
