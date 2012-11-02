@@ -12,7 +12,6 @@
 @interface IconMaker (hidden)
 
 -(void)writePixelsToIcon;
--(void)addDrawingMask;
 -(BOOL) shouldDrawIndex:(int)i;
 
 @end
@@ -33,25 +32,20 @@
     self = [super init];
     
     if (self){
-
+        
         sampPerPix = 4;
         self.size = s;
+        renderArea = NSMakeRect(0, 0, size.width, size.height);
         sampPerRow = sampPerPix * size.width;
-        
         nTotalSamp = (int)size.width * (int)size.height * sampPerPix;
 
         pixels = malloc( nTotalSamp * sizeof(unsigned char));
-    
-        renderArea = NSMakeRect(0, 0, size.width, size.height);
         
     }
     return self;
 
-
 }
 -(BOOL) shouldDrawIndex:(int) i{
-   
-    
     return ( i / sampPerRow > renderArea.origin.y    &&
              i / sampPerRow < renderArea.size.height &&
              i % sampPerRow > renderArea.origin.x * sampPerPix   &&
@@ -90,30 +84,48 @@
 
 -(NSImage *)generateIconFromActivity:(NSArray *)per{
 
-    double p1 = [(NSNumber *)[per objectAtIndex:0] doubleValue] * 255.00;
-    double p2 = [(NSNumber *)[per objectAtIndex:1] doubleValue] * 255.00;
+    double p1 = [(NSNumber *)[per objectAtIndex:0] doubleValue];// * 255.00;
+    double p2 = [(NSNumber *)[per objectAtIndex:1] doubleValue];// * 255.00;
     
-    p1 = (p1 > 255) ? 255 : p1;
-    p2 = (p2 > 255) ? 255 : p2;
-    
-    p1 = (p1 < 0) ? 0 : p1;
-    p2 = (p2 < 0) ? 0 : p2;
-
+    int r,g,b,a;
+    a = 255;
     for( int i=0; i<nTotalSamp; i+=4)
     {
-        // Check to see if the current drawing index is within the bounds of the image
-        if (![self shouldDrawIndex:i])
+        if ( ![self shouldDrawIndex:i] )
+            continue;
+        if ( (i%sampPerRow) > (sampPerRow/2 - 64) && (i%sampPerRow) < (sampPerRow/2 + 64) )
             continue;
         
-        pixels[ i + 0] = (int) p1;//(drawCount * 32) % 256;//(drawCount * 255 * i) / (1024 * 1024 * 4 * 10);
-        pixels[ i + 1 ] = (int) p2;//255 - ((255 * i) / (1024 * 1024 * 4));//(255 * (1024 - i))/1024;
-        pixels[ i + 2 ] = 0;
-        pixels[ i + 3 ] = 255;//(255 * i) / (1024 * 1024 * 4);
+        r = 0; g = 0; b = 0;
+        
+        // Split into two columns
+        if (i % sampPerRow < sampPerRow/2){
+            if ( (nTotalSamp - i) < (p1 * nTotalSamp ) )
+                r = 255;//p1;
+        }
+        else{
+            if ( (nTotalSamp - i) < (p2 * nTotalSamp) )
+                g = 255;//(p2;
+        }
+        pixels[ i + 0 ] = r;
+        pixels[ i + 1 ] = g;
+        pixels[ i + 2 ] = b;
+        pixels[ i + 3 ] = a;
     }
     
     [self writePixelsToIcon];
-    [self addDrawingMask];
+
     
+    [theIcon lockFocus];
+    [iconMask drawAtPoint:NSMakePoint(0, 0) fromRect:NSMakeRect(0, 0, size.width, size.height) operation:NSCompositeDestinationOver fraction:1];
+    [theIcon unlockFocus];
+    
+    
+    if (DEBUG == 1){
+//        NSString *str = [NSString stringWithFormat:@"N:%ld %2.2f %2.2f", [per count], p1, p2];
+        NSString *str = [NSString stringWithFormat:@"n:%ld", [per count] ];
+        [self drawStringToImage:str];
+    }
     return theIcon;
 }
 
@@ -121,9 +133,6 @@
     
     for( int i=0; i<nTotalSamp; i+=4)
     {
-        // Check to see if the current drawing index is within the bounds of the image
-//        if (![IconMaker shouldDrawIndex:i])
-//            continue;
         if (![self shouldDrawIndex:i])
             continue;
    
@@ -134,8 +143,7 @@
         
     }
     [self writePixelsToIcon];
-    [self addDrawingMask];
-    
+  
     return theIcon;
 }
 
@@ -145,22 +153,66 @@
     NSLog(@"Constraining drawing to:%3.1f %3.1f, %3.1f %3.1f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 
     renderArea = bounds;
-    
 }
-// Overlay iconMask on top of theIcon
--(void)addDrawingMask{
+
+-(void) drawStringToImage:(NSString*) string{
     
-    NSLog(@"Applying drawing mask");
+    CGFloat fontSize = 200.0f;
+    
+    // Create an attributed string with string and font information
+    CTFontRef font = CTFontCreateWithName(CFSTR("Helvetica Bold"), fontSize, nil);
+    
+    NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                (__bridge id)(font), kCTFontAttributeName,
+                                [[NSColor whiteColor] CGColor], (__bridge id)(kCTForegroundColorAttributeName),
+                                nil];
+   
+    
+    NSAttributedString* as = [[NSAttributedString alloc] initWithString:string attributes:attributes];
+    CFRelease(font);
+
+    // Figure out how big an image we need
+    CTLineRef textLine = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)as);
+    CGFloat ascent, descent, leading;
+    double fWidth = CTLineGetTypographicBounds(textLine, &ascent, &descent, &leading);
+    
+    // On iOS 4.0 and Mac OS X v10.6 you can pass null for data
+    size_t w = (size_t)ceilf(fWidth);
+    size_t h = (size_t)ceilf(ascent + descent);
+
+    void* data = malloc(w*h*4);
+    
+    // Create the context and fill it with white background
+    CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast;
+    CGContextRef ctx = CGBitmapContextCreate(data, w, h, 8, w*4, space, bitmapInfo);
+    CGColorSpaceRelease(space);
+    CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.0); // black background
+    CGContextFillRect(ctx, CGRectMake(0.0, 0.0, w, h));
+    
+    // Draw the text
+
+    CGFloat x = 0.0;
+    CGFloat y = descent;
+    CGContextSetTextPosition(ctx, x, y);
+    CTLineDraw(textLine, ctx);
+    CFRelease(textLine);
+    
+    // Draw the text to an NSImage
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    NSBitmapImageRep* imageRep = [[NSBitmapImageRep alloc] initWithCGImage:imageRef];
+    NSImage *stringImage = [[NSImage alloc] initWithSize:size];
+    [stringImage addRepresentation:imageRep];
+    
+    // Overlay the new image on the Icon
     [theIcon lockFocus];
-
-    [iconMask drawAtPoint:NSMakePoint(0, 0) fromRect:NSMakeRect(0, 0, size.width, size.height) operation:NSCompositeDestinationOver fraction:1];
-    
+    [stringImage drawInRect:NSMakeRect(renderArea.origin.x, renderArea.origin.y, w, h) fromRect:NSZeroRect operation:NSCompositeSourceAtop fraction:1];
     [theIcon unlockFocus];
-
-//    theIcon = iconMask;
     
-}
+    CGImageRelease(imageRef);
+    free(data);
 
+}
 
 
 @end

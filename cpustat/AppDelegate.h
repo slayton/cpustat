@@ -47,6 +47,8 @@
 
 -(void) updateDockIcon;
 
+-(NSMenu *) applicationDockMenu;
+
 
 
 

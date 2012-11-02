@@ -26,14 +26,14 @@
 
     // Initialize the instance vars
     timerRunning = false;
-    timeOut = .5;
+    timeOut = 1.25;
 
     // Instantiate the icon maker, set the mask, and drawing area
     
     iconMaker = [[IconMaker alloc] initWithSize:NSMakeSize(ICON_W, ICON_H)];
     iconMaker.iconMask = [NSImage imageNamed:@"frame.png"];
     
-    [iconMaker setRenderBounds: NSMakeRect(32, 68, ICON_W - 32, ICON_H - 68) ];
+    [iconMaker setRenderBounds: NSMakeRect(64, 68, ICON_W - 64, ICON_H - 68) ];
     
     monitor = [[SystemMonitor alloc] init];
     // Start the timer!
@@ -42,6 +42,7 @@
     [self timerExpired]; // run once to update immediately!
     
 }
+
 
 -(void) startTimer{
     NSLog(@"AppDelegate::startTimer()");
@@ -66,14 +67,26 @@
 -(void) updateDockIcon{
     //NSLog(@"Updating dock icon!");
     
-//    NSString *str = [NSString stringWithFormat:@"CPU "];
-//    for (int i=0; i< [monitor numCPUs]; i++ ){
-//        str = [str stringByAppendingFormat:@"%d:%3.3f ", i, [monitor getPerCpu:i]];
-//    }
-//    NSLog(str);
+    NSString *str = [NSString stringWithFormat:@" "];
+    for (int i=0; i< [monitor numCPUs]; i++ ){
+        str = [str stringByAppendingFormat:@"%2.2f ", i, [monitor getPerCpu:i]];
+    }
+
+    NSLog(str);
     
-    NSImage *iconImage = [iconMaker generateTestIcon];
+//    NSImage *iconImage = [iconMaker generateTestIcon];
+    NSImage *iconImage = [iconMaker generateIconFromActivity:[monitor getPerCpu]];
     [NSApp setApplicationIconImage:iconImage];
+    
+    if(DEBUG){
+        NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
+//        [tile setBadgeLabel:str];
+    }
+}
+
+
+-(NSMenu *) applicationDockMenu{
+    
 }
 
 @end

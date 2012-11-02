@@ -42,6 +42,7 @@
 
 -(void) pollCpuUsage{
     
+    [perCpu removeAllObjects];
     natural_t numCPUsU = 0U;
     kern_return_t err = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
     
