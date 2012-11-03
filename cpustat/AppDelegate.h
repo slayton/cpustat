@@ -10,31 +10,34 @@
 #import "SystemMonitor.h"
 #include "IconMaker.h"
 
+static const int PLOT_ALL_CORES = 1;
+static const int PLOT_HISTORY = 2;
+static const int PLOT_RAM = 10;
+
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
     
     float timeOut;
-    bool timerRunning;
-
-    processor_info_array_t cpuInfo, prevCpuInfo;
-    mach_msg_type_number_t numCpuInfo, numPrevCpuInfo;
-    unsigned numCPUs;
+    BOOL timerRunning;
     
     NSTimer *updateTimer;
     NSLock *CPUUsageLock;
+    
+    NSImage *iconFrame;
+    NSRect renderRect;
+    
     SystemMonitor *monitor;
     IconMaker *iconMaker;
+
+    NSMenu *appDockMenu;
     
-//    unsigned char *pixels;
-//    NSImage *iconImage;
-//    BOOL pixelsAllocated;
-//    BOOL imageAllocated;
+    
+    int plotType;
     
 }
 @property (assign) IBOutlet NSWindow *window;
 
 @property (nonatomic) float timeOut;
-@property (nonatomic) bool timerRunning;
 
 @property  (nonatomic) SystemMonitor * monitor;
 @property (nonatomic) IconMaker * iconMaker;

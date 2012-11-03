@@ -1,0 +1,11 @@
+TODO:
+IconMaker:
+    render as a grid
+    render on and off segments
+    
+    create the bitmap to be the actual size of the render bounds, this should make the math easier
+    then only apply the image to the apporpriate location of the icon
+    
+AppDelegate:
+    Set the type of reporting on monitor
+    

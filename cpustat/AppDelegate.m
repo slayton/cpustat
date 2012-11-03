@@ -11,41 +11,37 @@
 
 @implementation AppDelegate
 @synthesize monitor;
-@synthesize timerRunning;
 @synthesize timeOut;
 @synthesize iconMaker;
 
 //@synthesize iconImage;
 //@synthesize iconAllocated;
+
 #define ICON_W 1024
 #define ICON_H 1024
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSLog(@"applicationDidFinishLaunching!");
+    plotType = PLOT_ALL_CORES;
 
-    // Initialize the instance vars
-    timerRunning = false;
-    timeOut = 1.25;
+//    renderRect = NSMakeRect(94, 125, ICON_W-(91+94), ICON_H - (131+125));
+    renderRect = NSMakeRect(200, 200, 200, 200);
 
-    // Instantiate the icon maker, set the mask, and drawing area
+    iconMaker = [[IconMaker alloc] initWithSize:renderRect.size];
     
-    iconMaker = [[IconMaker alloc] initWithSize:NSMakeSize(ICON_W, ICON_H)];
-    iconMaker.iconMask = [NSImage imageNamed:@"frame.png"];
-    
-    [iconMaker setRenderBounds: NSMakeRect(64, 68, ICON_W - 64, ICON_H - 68) ];
+    iconFrame = [NSImage imageNamed:@"frame_900.png"];
     
     monitor = [[SystemMonitor alloc] init];
-    // Start the timer!
 
+    timeOut = 1.25;
     [self startTimer];
-    [self timerExpired]; // run once to update immediately!
     
 }
 
 
 -(void) startTimer{
     NSLog(@"AppDelegate::startTimer()");
+    timerRunning = YES;
     [NSTimer scheduledTimerWithTimeInterval: timeOut
                                      target: self
                                    selector:@selector(timerExpired)
@@ -54,9 +50,7 @@
 }
 
 -(void) timerExpired{
-
     [monitor pollCpuUsage];
-    
     [self updateDockIcon];
 }
 
@@ -68,25 +62,41 @@
     //NSLog(@"Updating dock icon!");
     
     NSString *str = [NSString stringWithFormat:@" "];
-    for (int i=0; i< [monitor numCPUs]; i++ ){
-        str = [str stringByAppendingFormat:@"%2.2f ", i, [monitor getPerCpu:i]];
-    }
-
-    NSLog(str);
+    for (int i=0; i< [monitor numCPUs]; i++ )
+        str = [str stringByAppendingFormat:@"%0.2f ", [monitor getPerCpu:i]];
     
-//    NSImage *iconImage = [iconMaker generateTestIcon];
-    NSImage *iconImage = [iconMaker generateIconFromActivity:[monitor getPerCpu]];
-    [NSApp setApplicationIconImage:iconImage];
+    NSLog(@"%@",str);
+
+//    NSImage *iconImage = [iconMaker generateIconFromActivity:[monitor perCpu]];
+    NSImage *iconImage = [iconMaker generateTestIcon];
+   
+    [iconFrame lockFocus];
+    [iconImage drawInRect:renderRect fromRect:NSZeroRect operation:NSCompositeSourceAtop fraction:1];
+//    [iconImage drawAtPoint:NSMakePoint(94, 125) fromRect:NSZeroRect operation:NSCompositeSourceAtop fraction:1];
+    [iconFrame unlockFocus];
+
+    
+    
+    [NSApp setApplicationIconImage:iconFrame];
     
     if(DEBUG){
-        NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
-//        [tile setBadgeLabel:str];
+      NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
+        [tile setBadgeLabel:str];
     }
 }
 
 
--(NSMenu *) applicationDockMenu{
+
+-(IBAction) menuSetPlotType:(id)sender{
+   
+    switch ([sender tag]){
+        case PLOT_ALL_CORES:
+            plotType = PLOT_ALL_CORES;
+            break;
+        case PLOT_HISTORY:
+            plotType = PLOT_HISTORY;
+            break;
+    }
     
 }
-
 @end

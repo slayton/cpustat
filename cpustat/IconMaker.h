@@ -11,15 +11,13 @@
 @interface IconMaker : NSObject{
 
     NSSize size;
-    NSRect renderArea;
     int sampPerPix;
     int sampPerRow;
     int nTotalSamp;
     
     unsigned char * pixels;
     
-    NSImage *iconMask;
-    NSImage *theIcon;
+    NSImage *renderImage;
             
 }
 @property (nonatomic) NSSize size;
@@ -30,8 +28,8 @@
 
 
 @property (nonatomic) unsigned char * pixels;
-@property (nonatomic) NSImage * iconMask;
 @property (nonatomic) NSImage * theIcon;
+@property (nonatomic) NSImage * renderImage;
 
 -(id) initWithSize:(NSSize)s;
 

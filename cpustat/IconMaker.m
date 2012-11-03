@@ -11,7 +11,7 @@
 
 @interface IconMaker (hidden)
 
--(void)writePixelsToIcon;
+-(void)convertPixelsToImage;
 -(BOOL) shouldDrawIndex:(int)i;
 
 @end
@@ -24,21 +24,21 @@
 @synthesize sampPerRow;
 @synthesize nTotalSamp;
 @synthesize pixels;
-@synthesize iconMask;
 @synthesize theIcon;
+@synthesize renderImage;
 
 -(id) initWithSize:(NSSize) s{
     
     self = [super init];
     
     if (self){
-        
+
         sampPerPix = 4;
         self.size = s;
-        renderArea = NSMakeRect(0, 0, size.width, size.height);
-        sampPerRow = sampPerPix * size.width;
-        nTotalSamp = (int)size.width * (int)size.height * sampPerPix;
-
+        nTotalSamp = (int)( size.width * size.height * sampPerPix );
+       
+        NSLog(@"Allocating memory for pixel array size:%@ and total:%ld", NSStringFromSize(size), nTotalSamp * sizeof(unsigned char));
+        
         pixels = malloc( nTotalSamp * sizeof(unsigned char));
         
     }
@@ -46,24 +46,23 @@
 
 }
 -(BOOL) shouldDrawIndex:(int) i{
-    return ( i / sampPerRow > renderArea.origin.y    &&
-             i / sampPerRow < renderArea.size.height &&
-             i % sampPerRow > renderArea.origin.x * sampPerPix   &&
-             i % sampPerRow < renderArea.size.width * sampPerPix);
+    return YES;//( i / sampPerRow > renderArea.origin.y    &&
+//             i / sampPerRow < renderArea.size.height &&
+//             i % sampPerRow > renderArea.origin.x * sampPerPix   &&
+//             i % sampPerRow < renderArea.size.width * sampPerPix);
 }
--(void) writePixelsToIcon{
+-(void) convertPixelsToImage{
     
-    if (theIcon == NULL)
-        theIcon = [[NSImage alloc] initWithSize:size];
+    if (renderImage == NULL)
+        renderImage = [[NSImage alloc] initWithSize:size];
     else{
 
-        // Remove previous representations from theIcon
-        NSArray *prevReps = [theIcon representations];
+        NSArray *prevReps = [renderImage representations];
         for (id r in prevReps)
-            [theIcon removeRepresentation:r];
+            [renderImage removeRepresentation:r];
     }
 
-    // Generate a new NSBitmapImageRep 
+    NSLog(@"Creating bitmapImageReprsentation with size:%@", NSStringFromSize(size));
     NSBitmapImageRep *imgRep =
     [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&pixels
                                             pixelsWide:size.width
@@ -77,97 +76,97 @@
                                            bytesPerRow:0
                                           bitsPerPixel:0];
     
-    // update the Representatin for theIcon
-    [theIcon addRepresentation:imgRep];
-    
+    [renderImage addRepresentation:imgRep];
 }
 
 -(NSImage *)generateIconFromActivity:(NSArray *)per{
 
-    double p1 = [(NSNumber *)[per objectAtIndex:0] doubleValue];// * 255.00;
-    double p2 = [(NSNumber *)[per objectAtIndex:1] doubleValue];// * 255.00;
-    
     int r,g,b,a;
+    
+    for (int i=0; i<nTotalSamp; i++)
+        pixels[i] = 0;
+    
+    int nCol = [per count];
+    double colWidth =  size.width / nCol;
+    NSLog(@"nCol %d colWidth %2.1f", nCol, colWidth);
+    int curCol;
+    int idx = 0;
+    
+    r = 0;
+    b = 0;
+    g = 0;
     a = 255;
-    for( int i=0; i<nTotalSamp; i+=4)
-    {
-        if ( ![self shouldDrawIndex:i] )
-            continue;
-        if ( (i%sampPerRow) > (sampPerRow/2 - 64) && (i%sampPerRow) < (sampPerRow/2 + 64) )
-            continue;
-        
-        r = 0; g = 0; b = 0;
-        
-        // Split into two columns
-        if (i % sampPerRow < sampPerRow/2){
-            if ( (nTotalSamp - i) < (p1 * nTotalSamp ) )
-                r = 255;//p1;
+    for( int i=0; i<(int)(size.height); i++){// Rows
+        for (int j=0; j<(int) size.width; j++){// Columns
+           
+            r = 255 * ((float) j / size.width);
+            
+            pixels[ idx + 0 ] = r;
+            pixels[ idx + 1 ] = g;
+            pixels[ idx + 2 ] = b;
+            pixels[ idx + 3 ] = a;
+            
+            idx += 4;
         }
-        else{
-            if ( (nTotalSamp - i) < (p2 * nTotalSamp) )
-                g = 255;//(p2;
-        }
-        pixels[ i + 0 ] = r;
-        pixels[ i + 1 ] = g;
-        pixels[ i + 2 ] = b;
-        pixels[ i + 3 ] = a;
     }
     
-    [self writePixelsToIcon];
-
-    
-    [theIcon lockFocus];
-    [iconMask drawAtPoint:NSMakePoint(0, 0) fromRect:NSMakeRect(0, 0, size.width, size.height) operation:NSCompositeDestinationOver fraction:1];
-    [theIcon unlockFocus];
-    
+    [self convertPixelsToImage];
     
     if (DEBUG == 1){
-//        NSString *str = [NSString stringWithFormat:@"N:%ld %2.2f %2.2f", [per count], p1, p2];
         NSString *str = [NSString stringWithFormat:@"n:%ld", [per count] ];
-        [self drawStringToImage:str];
+      //  [self drawStringToImage:str];
     }
-    return theIcon;
+    
+    [self saveImageToFile:renderImage];
+    return renderImage;
 }
 
--(NSImage *) generateTestIcon{
-    
-    for( int i=0; i<nTotalSamp; i+=4)
-    {
-        if (![self shouldDrawIndex:i])
-            continue;
-   
-        pixels[ i + 0] =  ( 255 * i) / nTotalSamp;
-        pixels[ i + 1 ] = ( 255 * (nTotalSamp - i) ) / nTotalSamp;
-        pixels[ i + 2 ] = 0; // / nTotalSamp;
-        pixels[ i + 3 ] = (255);// * i) / (1024 * 1024 * 4);
-        
+-(NSImage *)generateTestIcon{
+    int idx =0;
+    for( int i=0; i<(int)(size.height); i++){// Rows
+        for (int j=0; j<(int) size.width; j++){// Columns
+            pixels[ idx + 0 ] = 255 * ((float) j / size.width); // r
+            pixels[ idx + 1 ] = 0; //  g
+            pixels[ idx + 2 ] = 0; //  b
+            pixels[ idx + 3 ] = 255;// a
+            
+            idx += 4;
+        }
     }
-    [self writePixelsToIcon];
-  
-    return theIcon;
+    
+    [self convertPixelsToImage];
+
+    [self saveImageToFile:renderImage];
+    return renderImage;
 }
 
--(void) setRenderBounds:(NSRect)bounds{
+-(void) saveImageToFile:(NSImage*) img{
     
-    NSLog(@"Set Render bounds");
-    NSLog(@"Constraining drawing to:%3.1f %3.1f, %3.1f %3.1f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
-
-    renderArea = bounds;
+    NSString * filename = @"/Users/stuartlayton/Desktop/test.jpg";
+    
+    NSData * imgData = [img TIFFRepresentation];
+    NSBitmapImageRep * imgRep = [NSBitmapImageRep imageRepWithData:imgData];
+    
+    NSDictionary * imgProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor];
+    
+    imgData = [imgRep representationUsingType:NSJPEGFileType properties:imgProps];
+    
+    [imgData writeToFile:filename atomically:NO];
+    
 }
 
 -(void) drawStringToImage:(NSString*) string{
     
-    CGFloat fontSize = 200.0f;
+    CGFloat fontSize = 150.0f;
     
     // Create an attributed string with string and font information
-    CTFontRef font = CTFontCreateWithName(CFSTR("Helvetica Bold"), fontSize, nil);
+    CTFontRef font = CTFontCreateWithName(CFSTR("Courier Bold"), fontSize, nil);
     
     NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                 (__bridge id)(font), kCTFontAttributeName,
                                 [[NSColor whiteColor] CGColor], (__bridge id)(kCTForegroundColorAttributeName),
                                 nil];
    
-    
     NSAttributedString* as = [[NSAttributedString alloc] initWithString:string attributes:attributes];
     CFRelease(font);
 
@@ -180,21 +179,18 @@
     size_t w = (size_t)ceilf(fWidth);
     size_t h = (size_t)ceilf(ascent + descent);
 
-    void* data = malloc(w*h*4);
+    unsigned char * data = malloc(w*h*4);
     
     // Create the context and fill it with white background
     CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
     CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast;
     CGContextRef ctx = CGBitmapContextCreate(data, w, h, 8, w*4, space, bitmapInfo);
     CGColorSpaceRelease(space);
-    CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.0); // black background
+    CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 1.0); // black background
     CGContextFillRect(ctx, CGRectMake(0.0, 0.0, w, h));
     
     // Draw the text
-
-    CGFloat x = 0.0;
-    CGFloat y = descent;
-    CGContextSetTextPosition(ctx, x, y);
+    CGContextSetTextPosition(ctx, 0.0, descent);
     CTLineDraw(textLine, ctx);
     CFRelease(textLine);
     
@@ -204,14 +200,12 @@
     NSImage *stringImage = [[NSImage alloc] initWithSize:size];
     [stringImage addRepresentation:imageRep];
     
-    // Overlay the new image on the Icon
-    [theIcon lockFocus];
-    [stringImage drawInRect:NSMakeRect(renderArea.origin.x, renderArea.origin.y, w, h) fromRect:NSZeroRect operation:NSCompositeSourceAtop fraction:1];
-    [theIcon unlockFocus];
+    [renderImage lockFocus];
+    [stringImage drawInRect:NSMakeRect(0, 0, w, h) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    [renderImage unlockFocus];
     
     CGImageRelease(imageRef);
     free(data);
-
 }
 
 
