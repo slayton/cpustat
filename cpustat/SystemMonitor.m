@@ -21,6 +21,7 @@
     
     if (self){
     
+        
         int mib[2U] = { CTL_HW, HW_NCPU };
         size_t sizeOfNumCPUs = sizeof(numCPUs);
         int status = sysctl(mib, 2U, &numCPUs, &sizeOfNumCPUs, NULL, 0U);
@@ -30,11 +31,9 @@
         
         CPUUsageLock = [[NSLock alloc] init];
         
-        // Setup the percentCpu array, alloc, then initialize to 0
-        perCpu = [ [NSMutableArray alloc] initWithCapacity:numCPUs];
-        
-        for (int i=0; i<perCpu.count; i++)
-            [perCpu insertObject:[NSNumber numberWithDouble:-1.0] atIndex:i];
+        realTime = YES;
+        nSampleHistory = 12;
+        [self makePerCpuArray];
         
     }
     return self;
@@ -42,9 +41,12 @@
 
 -(void) pollCpuUsage{
     
-    [perCpu removeAllObjects];
+    NSMutableArray *pollArray = [[NSMutableArray alloc] initWithCapacity:numCPUs];
+
+    //[perCpu removeAllObjects];
     natural_t numCPUsU = 0U;
     kern_return_t err = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &numCPUsU, &cpuInfo, &numCpuInfo);
+    
     
     if(err == KERN_SUCCESS) {
         [CPUUsageLock lock];
@@ -65,7 +67,7 @@
             
 //            NSLog(@"Core: %u Usage: %f",i,inUse / total);
             
-            [perCpu insertObject:[NSNumber numberWithDouble:inUse/total] atIndex:i];
+            [pollArray insertObject:[NSNumber numberWithDouble:inUse/total] atIndex:i];
             
         }
         [CPUUsageLock unlock];
@@ -80,11 +82,47 @@
         
         cpuInfo = NULL;
         numCpuInfo = 0U;
+        
+        
+        if (realTime){
+            [perCpu removeAllObjects];
+            
+            for (int i=0; i<pollArray.count; i++)
+                [perCpu insertObject:[pollArray objectAtIndex:i] atIndex:i];
+        }
+        else{
+            double meanUsage = 0;
+            for (int i=0; i<pollArray.count; i++)
+                meanUsage += [(NSNumber *)[pollArray objectAtIndex:i] doubleValue];
+            meanUsage /= [pollArray count];
+            [perCpu removeObjectAtIndex:0];
+            [perCpu addObject:[NSNumber numberWithDouble:meanUsage]];
+        }
     }
     else {
         NSLog(@"Error!");
         [NSApp terminate:nil];
     }
+    
+    NSString *str = @"";
+    for (int i=0; i<[perCpu count]; i++) 
+        str = [str stringByAppendingFormat:@"%0.2f ", [(NSNumber *) [perCpu objectAtIndex:i] doubleValue]];
+    
+//    NSLog([@"Poll cpu usage:" stringByAppendingString:str]);
+}
+-(void) makePerCpuArray{
+    int nSample;
+    if (realTime)
+        nSample = numCPUs;
+    else
+        nSample = nSampleHistory;
+    
+    perCpu = [ [NSMutableArray alloc] initWithCapacity:nSample];
+
+    for (int i=0; i<nSample; i++)
+        [perCpu insertObject:[NSNumber numberWithDouble:0] atIndex:i];
+    
+    NSLog(@"New perCpu array initialized with %d samples", nSample);
 }
 -(double) getPerCpu:(int)i{
 

@@ -23,6 +23,8 @@
     double mbRam;
 //    double *perCpu;
     NSMutableArray *perCpu;
+    BOOL realTime;
+    int nSampleHistory;
     
 }
 @property (nonatomic) processor_info_array_t cpuInfo;
