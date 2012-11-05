@@ -8,6 +8,7 @@
 
 #import "IconMaker.h"
 #import "Cocoa/Cocoa.h"
+#import "NSColor+CGColor.m"
 
 @interface IconMaker (hidden)
 
@@ -101,17 +102,20 @@
     int gridSpace = 15;
     
     NSLog(@"nCol %d colWidth %2.1f", nCol, gridWidth);
-    int curCol;
+
     int idx = 0;
-    
+    int curCol, curRow;
     r = 0;
     b = 0;
     g = 0;
     a = 255;
     int iRnd;
-    double perVal;
+    double perVal, perRow;
+    
     for( int i=0; i<(int)(pixelSize.height); i++){// Rows
         
+        curRow =  (int)((double)i / (gridHeight));
+        perRow = (double)curRow / (double)nRow;
         iRnd = ((double)i * nRow)/(double)nRow;
         
         for (int j=0; j<(int) pixelSize.width; j++){// Columns
@@ -121,28 +125,24 @@
             perVal = [(NSNumber*) [per objectAtIndex:curCol] doubleValue];
             
             perVal = (double)((int)(perVal * nRow))/(double)nRow;
-            // Draw black, instead of
+
             if ( (pixelSize.height - i) >= (perVal * pixelSize.height ) ||
                 (j % (int)gridWidth) < gridSpace  ||  (i % (int)gridHeight) < gridSpace  )
             {
 
                 r= 0; g = 0; b = 0;
-                
 
-                
-//            }else if ( (j % (int) colWidth) < 10 ){
-//                r= 0; g = 0; b = 0;
             }else
             {
-                if (i < (pixelSize.height/2) ){
-                    r =  255;
-                    g =  255 * 2*iRnd/(pixelSize.height);
-//                    g =  255 * i/(pixelSize.height * 2);
+
+                if ( perRow > .4){
+                    r = 0; g = 255; b = 0;
+                }
+                else if ( perRow > .2) {
+                    r = 255; g = 255; b = 0;
                 }
                 else{
-//                    r = 255  - ( 255 * i/(pixelSize.height * 2) );
-                    r = 255 * 2*(pixelSize.height-iRnd)/(pixelSize.height);
-                    g = 255;
+                    r = 255; g = 0; b = 0;
                 }
             }
             
