@@ -8,7 +8,6 @@
 
 #import "IconMaker.h"
 #import "Cocoa/Cocoa.h"
-#import "NSColor+CGColor.m"
 
 @interface IconMaker (hidden)
 
@@ -157,11 +156,11 @@
     
     [self convertPixelsToImage];
     
-    if (DEBUG == 1){
-       // NSString *str = [NSString stringWithFormat:@"n:%ld", [per count] ];
-        //[self drawStringToImage:str];
+//    if (DEBUG == 1){
+//        NSString *str = [NSString stringWithFormat:@"n:%ld", [per count] ];
+//       [self drawStringToImage:str];
 //        [self saveImageToFile:renderImage];
-    }
+//    }
     
 
     return renderImage;
@@ -210,7 +209,8 @@
     
     NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                 (__bridge id)(font), kCTFontAttributeName,
-                                [[NSColor whiteColor] CGColor], (__bridge id)(kCTForegroundColorAttributeName),
+                                CGColorCreateGenericRGB(255, 255, 255, 150), (__bridge id)(kCTForegroundColorAttributeName),
+                                //[[NSColor whiteColor] CGColor], (__bridge id)(kCTForegroundColorAttributeName),
                                 nil];
    
     NSAttributedString* as = [[NSAttributedString alloc] initWithString:string attributes:attributes];
@@ -232,7 +232,7 @@
     CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast;
     CGContextRef ctx = CGBitmapContextCreate(data, w, h, 8, w*4, space, bitmapInfo);
     CGColorSpaceRelease(space);
-    CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 1.0); // black background
+    CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 5.0); // black background
     CGContextFillRect(ctx, CGRectMake(0.0, 0.0, w, h));
     
     // Draw the text

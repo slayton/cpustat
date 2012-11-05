@@ -16,10 +16,10 @@
 		117BAE3D164312BD00715B84 /* green_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 117BAE37164312BD00715B84 /* green_off.png */; };
 		117BAE3E164312BD00715B84 /* green_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 117BAE38164312BD00715B84 /* green_on.png */; };
 		1189CCBD163F3BE200027F47 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1189CCBC163F3BE200027F47 /* icon.icns */; };
-		11D251FA164555C100C4A876 /* frame_900.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D251F9164555C100C4A876 /* frame_900.png */; };
 		11D251FD1645564B00C4A876 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 11D251FC1645564B00C4A876 /* TODO */; };
 		11D64F981640B71E00991DFD /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE31638A6BD001855D2 /* AppKit.framework */; };
 		11D64FBB1640BDB500991DFD /* IconMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D64FBA1640BDB500991DFD /* IconMaker.m */; };
+		11E971CF1648128700DD84F4 /* frame_900.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E971CE1648128700DD84F4 /* frame_900.png */; };
 		11EAAFE11638A6BD001855D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE01638A6BD001855D2 /* Cocoa.framework */; };
 		11EAAFEB1638A6BD001855D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFE91638A6BD001855D2 /* InfoPlist.strings */; };
 		11EAAFED1638A6BD001855D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11EAAFEC1638A6BD001855D2 /* main.m */; };
@@ -51,13 +51,13 @@
 		117BAE37164312BD00715B84 /* green_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = green_off.png; path = ../graphics/green_off.png; sourceTree = "<group>"; };
 		117BAE38164312BD00715B84 /* green_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = green_on.png; path = ../graphics/green_on.png; sourceTree = "<group>"; };
 		1189CCBC163F3BE200027F47 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		11D251F9164555C100C4A876 /* frame_900.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = frame_900.png; path = graphics/frame_900.png; sourceTree = SOURCE_ROOT; };
 		11D251FC1645564B00C4A876 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		11D64F911640B59600991DFD /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		11D64F931640B5F400991DFD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		11D64F951640B63300991DFD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		11D64FB91640BDB500991DFD /* IconMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconMaker.h; sourceTree = "<group>"; };
 		11D64FBA1640BDB500991DFD /* IconMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconMaker.m; sourceTree = "<group>"; };
+		11E971CE1648128700DD84F4 /* frame_900.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = frame_900.png; path = graphics/frame_900.png; sourceTree = SOURCE_ROOT; };
 		11EAAFDC1638A6BD001855D2 /* cpustat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cpustat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFE01638A6BD001855D2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		11EAAFE31638A6BD001855D2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -100,7 +100,7 @@
 		117BAE3216422F9300715B84 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				11D251F9164555C100C4A876 /* frame_900.png */,
+				11E971CE1648128700DD84F4 /* frame_900.png */,
 				117BAE33164312BD00715B84 /* yellow_off.png */,
 				117BAE34164312BD00715B84 /* yellow_on.png */,
 				117BAE35164312BD00715B84 /* red_off.png */,
@@ -265,8 +265,8 @@
 				117BAE3C164312BD00715B84 /* red_on.png in Resources */,
 				117BAE3D164312BD00715B84 /* green_off.png in Resources */,
 				117BAE3E164312BD00715B84 /* green_on.png in Resources */,
-				11D251FA164555C100C4A876 /* frame_900.png in Resources */,
 				11D251FD1645564B00C4A876 /* TODO in Resources */,
+				11E971CF1648128700DD84F4 /* frame_900.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +414,7 @@
 				INFOPLIST_FILE = "cpustat/cpustat-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -427,6 +428,7 @@
 				INFOPLIST_FILE = "cpustat/cpustat-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
