@@ -24,8 +24,9 @@
 {
     plotType = PLOT_ALL_CORES;
 
-//    renderRect = NSMakeRect(94, 125, ICON_W-(91+94), ICON_H - (131+125));
-    renderRect = NSMakeRect(200, 200, 200, 200);
+    renderRect = NSMakeRect(94, 125, ICON_W-(91+94), ICON_H - (131+125));
+//    renderRect = NSMakeRect(94, 125, 848, ICON_H - (131+125));
+//    renderRect = NSMakeRect(200, 200, 200, 200);
 
     iconMaker = [[IconMaker alloc] initWithSize:renderRect.size];
     
@@ -67,8 +68,8 @@
     
     NSLog(@"%@",str);
 
-//    NSImage *iconImage = [iconMaker generateIconFromActivity:[monitor perCpu]];
-    NSImage *iconImage = [iconMaker generateTestIcon];
+    NSImage *iconImage = [iconMaker generateIconFromActivity:[monitor perCpu]];
+//    NSImage *iconImage = [iconMaker generateTestIcon];
    
     [iconFrame lockFocus];
     [iconImage drawInRect:renderRect fromRect:NSZeroRect operation:NSCompositeSourceAtop fraction:1];
@@ -79,10 +80,10 @@
     
     [NSApp setApplicationIconImage:iconFrame];
     
-    if(DEBUG){
-      NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
-        [tile setBadgeLabel:str];
-    }
+//    if(DEBUG){
+//      NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
+//        [tile setBadgeLabel:str];
+//    }
 }
 
 

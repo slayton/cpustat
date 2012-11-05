@@ -10,7 +10,9 @@
 
 @interface IconMaker : NSObject{
 
-    NSSize size;
+    NSSize pixelSize;
+    NSSize renderSize;
+    
     int sampPerPix;
     int sampPerRow;
     int nTotalSamp;
@@ -20,8 +22,9 @@
     NSImage *renderImage;
             
 }
-@property (nonatomic) NSSize size;
-@property (nonatomic) NSRect drawArea;
+@property (nonatomic) NSSize pixelSize;
+@property (nonatomic) NSSize renderSize;
+
 @property (nonatomic) int sampPerPix;
 @property (nonatomic) int sampPerRow;
 @property (nonatomic) int nTotalSamp;

@@ -31,8 +31,8 @@
         
         CPUUsageLock = [[NSLock alloc] init];
         
-        realTime = YES;
-        nSampleHistory = 12;
+        realTime = NO;
+        nSampleHistory = 10;
         [self makePerCpuArray];
         
     }

@@ -19,7 +19,7 @@
 
 @implementation IconMaker
 
-@synthesize size;
+@synthesize pixelSize;
 @synthesize sampPerPix;
 @synthesize sampPerRow;
 @synthesize nTotalSamp;
@@ -34,10 +34,14 @@
     if (self){
 
         sampPerPix = 4;
-        self.size = s;
-        nTotalSamp = (int)( size.width * size.height * sampPerPix );
-       
-        NSLog(@"Allocating memory for pixel array size:%@ and total:%ld", NSStringFromSize(size), nTotalSamp * sizeof(unsigned char));
+        self.renderSize = s;
+        int pixW = [self round:(s.width) To:16];
+        int pixH = [self round:(s.height) To:16];
+        self.pixelSize = NSMakeSize(pixW, pixH);  
+        
+        nTotalSamp = (int)( pixelSize.width * pixelSize.height * sampPerPix );
+        NSLog(@"Received size of %@", NSStringFromSize(s));
+        NSLog(@"Allocating memory for pixel array size:%@ and total:%ld", NSStringFromSize(pixelSize), nTotalSamp * sizeof(unsigned char));
         
         pixels = malloc( nTotalSamp * sizeof(unsigned char));
         
@@ -54,7 +58,7 @@
 -(void) convertPixelsToImage{
     
     if (renderImage == NULL)
-        renderImage = [[NSImage alloc] initWithSize:size];
+        renderImage = [[NSImage alloc] initWithSize:pixelSize];
     else{
 
         NSArray *prevReps = [renderImage representations];
@@ -62,11 +66,11 @@
             [renderImage removeRepresentation:r];
     }
 
-    NSLog(@"Creating bitmapImageReprsentation with size:%@", NSStringFromSize(size));
+    NSLog(@"Creating bitmapImageReprsentation with size:%@", NSStringFromSize(pixelSize));
     NSBitmapImageRep *imgRep =
     [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&pixels
-                                            pixelsWide:size.width
-                                            pixelsHigh:size.height
+                                            pixelsWide:pixelSize.width
+                                            pixelsHigh:pixelSize.height
                                          bitsPerSample:8
                                        samplesPerPixel:sampPerPix
                                               hasAlpha:true
@@ -82,13 +86,21 @@
 -(NSImage *)generateIconFromActivity:(NSArray *)per{
 
     int r,g,b,a;
-    
-    for (int i=0; i<nTotalSamp; i++)
-        pixels[i] = 0;
+//    
+//    for (int i=0; i<pixelSize.height*pixelSize.width; i++){
+//        pixels[i+0] = 0;
+//        pixels[i+1] = 0;
+//        pixels[i+2] = 0;
+//        pixels[i+3] = 1;
+//    }
     
     int nCol = [per count];
-    double colWidth =  size.width / nCol;
-    NSLog(@"nCol %d colWidth %2.1f", nCol, colWidth);
+    int nRow = 10;
+    double gridWidth =  pixelSize.width / nCol;
+    double gridHeight = pixelSize.height / nRow;
+    int gridSpace = 15;
+    
+    NSLog(@"nCol %d colWidth %2.1f", nCol, gridWidth);
     int curCol;
     int idx = 0;
     
@@ -96,16 +108,49 @@
     b = 0;
     g = 0;
     a = 255;
-    for( int i=0; i<(int)(size.height); i++){// Rows
-        for (int j=0; j<(int) size.width; j++){// Columns
+    int iRnd;
+    double perVal;
+    for( int i=0; i<(int)(pixelSize.height); i++){// Rows
+        
+        iRnd = ((double)i * nRow)/(double)nRow;
+        
+        for (int j=0; j<(int) pixelSize.width; j++){// Columns
            
-            r = 255 * ((float) j / size.width);
+            curCol =  (int)((double)j / (gridWidth));
+
+            perVal = [(NSNumber*) [per objectAtIndex:curCol] doubleValue];
+            
+            perVal = (double)((int)(perVal * nRow))/(double)nRow;
+            // Draw black, instead of
+            if ( (pixelSize.height - i) >= (perVal * pixelSize.height ) ||
+                (j % (int)gridWidth) < gridSpace  ||  (i % (int)gridHeight) < gridSpace  )
+            {
+
+                r= 0; g = 0; b = 0;
+                
+
+                
+//            }else if ( (j % (int) colWidth) < 10 ){
+//                r= 0; g = 0; b = 0;
+            }else
+            {
+                if (i < (pixelSize.height/2) ){
+                    r =  255;
+                    g =  255 * 2*iRnd/(pixelSize.height);
+//                    g =  255 * i/(pixelSize.height * 2);
+                }
+                else{
+//                    r = 255  - ( 255 * i/(pixelSize.height * 2) );
+                    r = 255 * 2*(pixelSize.height-iRnd)/(pixelSize.height);
+                    g = 255;
+                }
+            }
             
             pixels[ idx + 0 ] = r;
             pixels[ idx + 1 ] = g;
             pixels[ idx + 2 ] = b;
             pixels[ idx + 3 ] = a;
-            
+
             idx += 4;
         }
     }
@@ -113,19 +158,20 @@
     [self convertPixelsToImage];
     
     if (DEBUG == 1){
-        NSString *str = [NSString stringWithFormat:@"n:%ld", [per count] ];
-      //  [self drawStringToImage:str];
+       // NSString *str = [NSString stringWithFormat:@"n:%ld", [per count] ];
+        //[self drawStringToImage:str];
+//        [self saveImageToFile:renderImage];
     }
     
-    [self saveImageToFile:renderImage];
+
     return renderImage;
 }
 
 -(NSImage *)generateTestIcon{
     int idx =0;
-    for( int i=0; i<(int)(size.height); i++){// Rows
-        for (int j=0; j<(int) size.width; j++){// Columns
-            pixels[ idx + 0 ] = 255 * ((float) j / size.width); // r
+    for( int i=0; i<(int)(pixelSize.height); i++){// Rows
+        for (int j=0; j<(int) pixelSize.width; j++){// Columns
+            pixels[ idx + 0 ] = 255 * ((float) j / pixelSize.width); // r
             pixels[ idx + 1 ] = 0; //  g
             pixels[ idx + 2 ] = 0; //  b
             pixels[ idx + 3 ] = 255;// a
@@ -197,7 +243,7 @@
     // Draw the text to an NSImage
     CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
     NSBitmapImageRep* imageRep = [[NSBitmapImageRep alloc] initWithCGImage:imageRef];
-    NSImage *stringImage = [[NSImage alloc] initWithSize:size];
+    NSImage *stringImage = [[NSImage alloc] initWithSize:pixelSize];
     [stringImage addRepresentation:imageRep];
     
     [renderImage lockFocus];
@@ -208,5 +254,18 @@
     free(data);
 }
 
+- (int) round:(int)num To:(int) multiple
+{
+    if(multiple == 0)
+    {
+        return num;
+    }
+    
+    int remainder = num % multiple;
+    if (remainder == 0)
+        return num;
+    
+    return num + multiple - remainder;
+}
 
 @end
