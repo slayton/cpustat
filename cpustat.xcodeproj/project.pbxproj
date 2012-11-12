@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11048801164C940700C145EE /* TaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11048800164C940700C145EE /* TaskView.m */; };
+		112779DC164F3AC500EB52EC /* TaskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 112779DB164F3AC500EB52EC /* TaskInfo.m */; };
+		112779DF164F40A200EB52EC /* NSMenuItem+Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 112779DE164F40A200EB52EC /* NSMenuItem+Font.m */; };
+		112779E3164F429B00EB52EC /* menu_cpu_high.png in Resources */ = {isa = PBXBuildFile; fileRef = 112779E1164F429B00EB52EC /* menu_cpu_high.png */; };
+		112779E4164F429B00EB52EC /* menu_cpu_low.png in Resources */ = {isa = PBXBuildFile; fileRef = 112779E2164F429B00EB52EC /* menu_cpu_low.png */; };
 		117BAE2E164220ED00715B84 /* SystemMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 117BAE2D164220ED00715B84 /* SystemMonitor.m */; };
 		117BAE3116422F8A00715B84 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 117BAE3016422F8A00715B84 /* frame.png */; };
 		117BAE39164312BD00715B84 /* yellow_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 117BAE33164312BD00715B84 /* yellow_off.png */; };
@@ -41,6 +46,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		110487E9164C8AFA00C145EE /* TaskInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskInfo.h; sourceTree = "<group>"; };
+		110487FF164C940600C145EE /* TaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskView.h; sourceTree = "<group>"; };
+		11048800164C940700C145EE /* TaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskView.m; sourceTree = "<group>"; };
+		112779DB164F3AC500EB52EC /* TaskInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskInfo.m; sourceTree = "<group>"; };
+		112779DE164F40A200EB52EC /* NSMenuItem+Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMenuItem+Font.m"; sourceTree = "<group>"; };
+		112779E0164F40BF00EB52EC /* NSMenuItem+Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMenuItem+Font.h"; sourceTree = "<group>"; };
+		112779E1164F429B00EB52EC /* menu_cpu_high.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_cpu_high.png; sourceTree = "<group>"; };
+		112779E2164F429B00EB52EC /* menu_cpu_low.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_cpu_low.png; sourceTree = "<group>"; };
 		117BAE2C164220ED00715B84 /* SystemMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMonitor.h; sourceTree = "<group>"; };
 		117BAE2D164220ED00715B84 /* SystemMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMonitor.m; sourceTree = "<group>"; };
 		117BAE3016422F8A00715B84 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = frame.png; path = ../graphics/frame.png; sourceTree = "<group>"; };
@@ -69,7 +82,7 @@
 		11EAAFEE1638A6BD001855D2 /* cpustat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cpustat-Prefix.pch"; sourceTree = "<group>"; };
 		11EAAFF01638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		11EAAFF21638A6BD001855D2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		11EAAFF31638A6BD001855D2 /* AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.m; sourceTree = "<group>"; };
+		11EAAFF31638A6BD001855D2 /* AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		11EAAFF61638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		11EAAFFD1638A6BD001855D2 /* cpustatTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cpustatTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFFE1638A6BD001855D2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -100,6 +113,8 @@
 		117BAE3216422F9300715B84 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				112779E1164F429B00EB52EC /* menu_cpu_high.png */,
+				112779E2164F429B00EB52EC /* menu_cpu_low.png */,
 				11E971CE1648128700DD84F4 /* frame_900.png */,
 				117BAE33164312BD00715B84 /* yellow_off.png */,
 				117BAE34164312BD00715B84 /* yellow_on.png */,
@@ -157,6 +172,8 @@
 		11EAAFE61638A6BD001855D2 /* cpustat */ = {
 			isa = PBXGroup;
 			children = (
+				110487E9164C8AFA00C145EE /* TaskInfo.h */,
+				112779DB164F3AC500EB52EC /* TaskInfo.m */,
 				11EAAFF21638A6BD001855D2 /* AppDelegate.h */,
 				11EAAFF31638A6BD001855D2 /* AppDelegate.m */,
 				11EAAFF51638A6BD001855D2 /* MainMenu.xib */,
@@ -167,6 +184,10 @@
 				117BAE2D164220ED00715B84 /* SystemMonitor.m */,
 				11EAAFE71638A6BD001855D2 /* Supporting Files */,
 				117BAE3216422F9300715B84 /* graphics */,
+				110487FF164C940600C145EE /* TaskView.h */,
+				11048800164C940700C145EE /* TaskView.m */,
+				112779DE164F40A200EB52EC /* NSMenuItem+Font.m */,
+				112779E0164F40BF00EB52EC /* NSMenuItem+Font.h */,
 			);
 			path = cpustat;
 			sourceTree = "<group>";
@@ -267,6 +288,8 @@
 				117BAE3E164312BD00715B84 /* green_on.png in Resources */,
 				11D251FD1645564B00C4A876 /* TODO in Resources */,
 				11E971CF1648128700DD84F4 /* frame_900.png in Resources */,
+				112779E3164F429B00EB52EC /* menu_cpu_high.png in Resources */,
+				112779E4164F429B00EB52EC /* menu_cpu_low.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +327,9 @@
 				11EAAFF41638A6BD001855D2 /* AppDelegate.m in Sources */,
 				11D64FBB1640BDB500991DFD /* IconMaker.m in Sources */,
 				117BAE2E164220ED00715B84 /* SystemMonitor.m in Sources */,
+				11048801164C940700C145EE /* TaskView.m in Sources */,
+				112779DC164F3AC500EB52EC /* TaskInfo.m in Sources */,
+				112779DF164F40A200EB52EC /* NSMenuItem+Font.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -83,7 +83,7 @@
     [renderImage addRepresentation:imgRep];
 }
 
--(NSImage *)generateIconFromActivity:(NSArray *)per{
+-(NSImage *)generateIconFromActivity:(NSArray *)per halfSize:(BOOL) halfSize{
 
     int r,g,b,a;
 //    
@@ -95,7 +95,7 @@
 //    }
     
     int nCol = [per count];
-    int nRow = 10;
+    int nRow = halfSize ?  5 : 10;
     double gridWidth =  pixelSize.width / nCol;
     double gridHeight = pixelSize.height / nRow;
     int gridSpace = 15;

@@ -7,6 +7,7 @@
 //
 
 #import "SystemMonitor.h"
+#import "TaskInfo.h";
 
 @implementation SystemMonitor
 @synthesize perCpu;
@@ -142,5 +143,49 @@
 
 -(double) gerPerRam{
     return 0;
+}
+
+-(NSArray *) getRunningTasks{
+    
+    NSMutableArray *taskList = [[NSMutableArray alloc] initWithCapacity:150];
+    char ps_cmd[256];
+    sprintf(ps_cmd, "ps AcrO %%cpu,%%mem");
+    //    printf("Executing command:%s\n", ps_cmd);
+    
+    const int NCHARS = 1024;
+    FILE *fp = popen(ps_cmd, "r");
+    if (fp){
+        
+        char result[NCHARS];
+        fgets(result, NCHARS, fp); // Read and ignore the first line
+        NSScanner *sc;
+        
+        while( fgets(result, NCHARS, fp) ){
+            fgets(result, NCHARS, fp);
+            
+            sc = [NSScanner scannerWithString:[NSString stringWithUTF8String:result]];
+            
+            int pid;
+            double cpu;
+            double ram;
+            NSString * name = NULL;
+            
+            
+            [sc scanInt:&pid];
+            [sc scanDouble:&cpu];
+            [sc scanDouble:&ram];
+            
+            [sc scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+            [sc scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+            [sc scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+            [sc scanUpToCharactersFromSet:[NSCharacterSet newlineCharacterSet]  intoString:&name];
+            
+            [taskList addObject:[ [TaskInfo alloc] initWithName:name percentCpu:cpu percentRam:ram andPID:pid] ];
+            
+            result[0] = 0;
+        }
+    }
+//    NSLog(@"Returning task list with %d items", [taskList count]);
+    return taskList;
 }
 @end

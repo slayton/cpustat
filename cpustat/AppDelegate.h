@@ -19,6 +19,8 @@ static const int PLOT_RAM = 10;
     
     float timeOut;
     BOOL timerRunning;
+    BOOL reportCpu;
+    BOOL reportRam;
     
     NSTimer *updateTimer;
     NSLock *CPUUsageLock;
@@ -27,20 +29,27 @@ static const int PLOT_RAM = 10;
     NSRect renderRect;
     
     SystemMonitor *monitor;
-    IconMaker *iconMaker;
+    IconMaker *iconCpu;
+    IconMaker *iconRam;
 
     NSMenu *appDockMenu;
+    NSMenuItem *showCpuItem;
+    NSMenuItem *showRamItem;
     
+    NSArray *taskList;
     
     int plotType;
     
 }
+@property (nonatomic) NSArray *taskList;
 @property (assign) IBOutlet NSWindow *window;
 
 @property (nonatomic) float timeOut;
 
 @property  (nonatomic) SystemMonitor * monitor;
-@property (nonatomic) IconMaker * iconMaker;
+@property (nonatomic) IconMaker * iconCpu;
+@property (nonatomic) IconMaker * iconRam;
+
 
 -(void) startTimer;
 -(void) timerExpired;
@@ -51,6 +60,7 @@ static const int PLOT_RAM = 10;
 -(void) updateDockIcon;
 
 -(NSMenu *) applicationDockMenu;
+
 
 
 

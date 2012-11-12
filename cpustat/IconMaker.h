@@ -38,7 +38,7 @@
 
 -(void) setRenderBounds:(NSRect) bounds;
 -(NSImage *)generateTestIcon;
--(NSImage *)generateIconFromActivity:(NSArray *)per;
+-(NSImage *)generateIconFromActivity:(NSArray *)per halfSize:(BOOL)halfSize;
 -(void) drawStringToImage:(NSString*) str;
 //-(void)bytesToImage;
 //-(NSImage *)addMask:(NSImage*)img1 withImage:(NSImage*)img2;

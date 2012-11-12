@@ -1,11 +1,21 @@
 TODO:
-IconMaker:
-    render as a grid
-    render on and off segments
-    
-    create the bitmap to be the actual size of the render bounds, this should make the math easier
-    then only apply the image to the apporpriate location of the icon
-    
+
 AppDelegate:
-    Set the type of reporting on monitor
+
+ - Setup the Icon to split RAM and CPU reporting
+ - Define seperate rendering regions for CPU and RAM icons
+ 
+ 
+Figure out if I want to write 1 icon renderer or split it into two?  Do I want to to the leg work of differentiating the two in the app delegate or in teh icon maker?!?
+
+IconMaker:
+ - Render RAM in different color scheme (blue?!?)
+ - Smartly render the size of the grid if the image if half or full size
+ 
+  
+   
+Monitor:
+ - Figure out how to do real-time CPU usage rporting, not clear!
+ - Do I need to store the data and track it myself?!
+
     

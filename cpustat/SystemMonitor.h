@@ -39,6 +39,7 @@
 -(double) getPerCpu:(int)i;
 -(NSArray*) getPerCpu;
 -(double) gerPerRam;
+-(NSArray *) getRunningTasks;
 
 
 
