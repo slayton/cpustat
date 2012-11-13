@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		11048801164C940700C145EE /* TaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11048800164C940700C145EE /* TaskView.m */; };
 		112779DC164F3AC500EB52EC /* TaskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 112779DB164F3AC500EB52EC /* TaskInfo.m */; };
-		112779DF164F40A200EB52EC /* NSMenuItem+Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 112779DE164F40A200EB52EC /* NSMenuItem+Font.m */; };
 		112779E3164F429B00EB52EC /* menu_cpu_high.png in Resources */ = {isa = PBXBuildFile; fileRef = 112779E1164F429B00EB52EC /* menu_cpu_high.png */; };
 		112779E4164F429B00EB52EC /* menu_cpu_low.png in Resources */ = {isa = PBXBuildFile; fileRef = 112779E2164F429B00EB52EC /* menu_cpu_low.png */; };
 		117BAE2E164220ED00715B84 /* SystemMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 117BAE2D164220ED00715B84 /* SystemMonitor.m */; };
@@ -33,6 +32,7 @@
 		11EAAFF71638A6BD001855D2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11EAAFF51638A6BD001855D2 /* MainMenu.xib */; };
 		11EAAFFF1638A6BD001855D2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFFE1638A6BD001855D2 /* SenTestingKit.framework */; };
 		11EAB0001638A6BD001855D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EAAFE01638A6BD001855D2 /* Cocoa.framework */; };
+		11FDA8371651EF960097FE04 /* ColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FDA8361651EF960097FE04 /* ColorScheme.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +50,6 @@
 		110487FF164C940600C145EE /* TaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskView.h; sourceTree = "<group>"; };
 		11048800164C940700C145EE /* TaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskView.m; sourceTree = "<group>"; };
 		112779DB164F3AC500EB52EC /* TaskInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskInfo.m; sourceTree = "<group>"; };
-		112779DE164F40A200EB52EC /* NSMenuItem+Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMenuItem+Font.m"; sourceTree = "<group>"; };
-		112779E0164F40BF00EB52EC /* NSMenuItem+Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMenuItem+Font.h"; sourceTree = "<group>"; };
 		112779E1164F429B00EB52EC /* menu_cpu_high.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_cpu_high.png; sourceTree = "<group>"; };
 		112779E2164F429B00EB52EC /* menu_cpu_low.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_cpu_low.png; sourceTree = "<group>"; };
 		117BAE2C164220ED00715B84 /* SystemMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMonitor.h; sourceTree = "<group>"; };
@@ -86,6 +84,8 @@
 		11EAAFF61638A6BD001855D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		11EAAFFD1638A6BD001855D2 /* cpustatTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cpustatTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EAAFFE1638A6BD001855D2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		11FDA8351651EF960097FE04 /* ColorScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorScheme.h; sourceTree = "<group>"; };
+		11FDA8361651EF960097FE04 /* ColorScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorScheme.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,8 +186,8 @@
 				117BAE3216422F9300715B84 /* graphics */,
 				110487FF164C940600C145EE /* TaskView.h */,
 				11048800164C940700C145EE /* TaskView.m */,
-				112779DE164F40A200EB52EC /* NSMenuItem+Font.m */,
-				112779E0164F40BF00EB52EC /* NSMenuItem+Font.h */,
+				11FDA8351651EF960097FE04 /* ColorScheme.h */,
+				11FDA8361651EF960097FE04 /* ColorScheme.m */,
 			);
 			path = cpustat;
 			sourceTree = "<group>";
@@ -329,7 +329,7 @@
 				117BAE2E164220ED00715B84 /* SystemMonitor.m in Sources */,
 				11048801164C940700C145EE /* TaskView.m in Sources */,
 				112779DC164F3AC500EB52EC /* TaskInfo.m in Sources */,
-				112779DF164F40A200EB52EC /* NSMenuItem+Font.m in Sources */,
+				11FDA8371651EF960097FE04 /* ColorScheme.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

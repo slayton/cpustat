@@ -8,6 +8,7 @@
 
 #import "IconMaker.h"
 #import "Cocoa/Cocoa.h"
+#import "ColorScheme.h"
 
 @interface IconMaker (hidden)
 
@@ -45,6 +46,9 @@
         
         pixels = malloc( nTotalSamp * sizeof(unsigned char));
         
+        
+        cpuScheme = [[ColorScheme alloc] initCpuScheme];
+        ramScheme = [[ColorScheme alloc] initRamScheme];
     }
     return self;
 
@@ -83,27 +87,39 @@
     [renderImage addRepresentation:imgRep];
 }
 
--(NSImage *)generateIconFromActivity:(NSArray *)per halfSize:(BOOL) halfSize{
+-(NSImage *)generateIconFromCpuActivity:(NSArray *)perCpu andRamAcvitity:(NSArray *)perRam{
 
-    int r,g,b,a;
-//    
-//    for (int i=0; i<pixelSize.height*pixelSize.width; i++){
-//        pixels[i+0] = 0;
-//        pixels[i+1] = 0;
-//        pixels[i+2] = 0;
-//        pixels[i+3] = 1;
-//    }
+    BOOL renderCpu = perCpu != NULL;
+    BOOL renderRam = perRam != NULL;
     
+    BOOL halfSize = ! (renderCpu ^ renderRam);
+    
+    if (renderCpu)
+        [self renderPixelsForActivity:perCpu halfSize:halfSize withColorScheme:cpuScheme];
+    
+    [self convertPixelsToImage];
+    
+
+    return renderImage;
+}
+
+-(void) renderPixelsForActivity:(NSArray *) per halfSize:(BOOL)halfSize withColorScheme:(ColorScheme *)c{
+    
+    int r,g,b,a;
     int nCol = [per count];
+
     int nRow = halfSize ?  5 : 10;
     double gridWidth =  pixelSize.width / nCol;
     double gridHeight = pixelSize.height / nRow;
     int gridSpace = 15;
+   
+    // Grab the RGB values for the color scheme before the loop!
+    NSString *s1 = @"Low:";
+    NSString *s2 = @"Med";
+    NSString *s3 = @"Hih:";
     
-    NSLog(@"nCol %d colWidth %2.1f", nCol, gridWidth);
-
     int idx = 0;
-    int curCol, curRow;
+    int curCol, curRow, prevCol = -1;
     r = 0;
     b = 0;
     g = 0;
@@ -118,30 +134,31 @@
         iRnd = ((double)i * nRow)/(double)nRow;
         
         for (int j=0; j<(int) pixelSize.width; j++){// Columns
-           
-            curCol =  (int)((double)j / (gridWidth));
-
-            perVal = [(NSNumber*) [per objectAtIndex:curCol] doubleValue];
             
-            perVal = (double)((int)(perVal * nRow))/(double)nRow;
-
+            curCol =  (int)((double)j / (gridWidth));
+            // only update the perVal if the column has changed
+            if (curCol != prevCol)
+            {
+                perVal = [(NSNumber*) [per objectAtIndex:curCol] doubleValue];
+                perVal = (double)((int)(perVal * nRow))/(double)nRow;
+                prevCol = curCol;
+            }
+            
             if ( (pixelSize.height - i) >= (perVal * pixelSize.height ) ||
                 (j % (int)gridWidth) < gridSpace  ||  (i % (int)gridHeight) < gridSpace  )
             {
-
                 r= 0; g = 0; b = 0;
-
-            }else
+            }
+            else
             {
-
                 if ( perRow > .4){
-                    r = 0; g = 255; b = 0;
+                    r = c->lowR; g = c->lowG; b = c->lowB;
                 }
                 else if ( perRow > .2) {
-                    r = 255; g = 255; b = 0;
+                    r = c->medR; g = c->medG; b = c->medB;
                 }
                 else{
-                    r = 255; g = 0; b = 0;
+                    r = c->highR; g = c->highG; b = c->highB;
                 }
             }
             
@@ -149,21 +166,10 @@
             pixels[ idx + 1 ] = g;
             pixels[ idx + 2 ] = b;
             pixels[ idx + 3 ] = a;
-
+            
             idx += 4;
         }
     }
-    
-    [self convertPixelsToImage];
-    
-//    if (DEBUG == 1){
-//        NSString *str = [NSString stringWithFormat:@"n:%ld", [per count] ];
-//       [self drawStringToImage:str];
-//        [self saveImageToFile:renderImage];
-//    }
-    
-
-    return renderImage;
 }
 
 -(NSImage *)generateTestIcon{

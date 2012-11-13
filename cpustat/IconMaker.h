@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ColorScheme.h"
 
+static const int CPU_SCHEME = 1;
+static const int RAM_SCHEME = 2;
 @interface IconMaker : NSObject{
 
     NSSize pixelSize;
@@ -20,6 +23,9 @@
     unsigned char * pixels;
     
     NSImage *renderImage;
+    
+    ColorScheme *cpuScheme;
+    ColorScheme *ramScheme;
             
 }
 @property (nonatomic) NSSize pixelSize;
@@ -38,7 +44,7 @@
 
 -(void) setRenderBounds:(NSRect) bounds;
 -(NSImage *)generateTestIcon;
--(NSImage *)generateIconFromActivity:(NSArray *)per halfSize:(BOOL)halfSize;
+-(NSImage *)generateIconFromCpuActivity:(NSArray *)perCpu andRamAcvitity:(NSArray *)perRam;
 -(void) drawStringToImage:(NSString*) str;
 //-(void)bytesToImage;
 //-(NSImage *)addMask:(NSImage*)img1 withImage:(NSImage*)img2;

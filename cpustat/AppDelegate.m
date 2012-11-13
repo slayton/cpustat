@@ -155,7 +155,8 @@ static const int MAX_N_TASK = 5;
 
 -(void) updateDockIcon{
     
-    NSImage *iconImage = [iconCpu generateIconFromActivity:[monitor perCpu] halfSize:(reportCpu && reportRam)];
+//    NSImage *iconImage = [iconCpu generateIconFromActivity:[monitor perCpu] halfSize:(reportCpu && reportRam)];
+    NSImage *iconImage = [iconCpu generateIconFromCpuActivity:[monitor perCpu] andRamAcvitity:NULL];
    
     [iconFrame lockFocus];
     [iconImage drawInRect:renderRect fromRect:NSZeroRect operation:NSCompositeSourceAtop fraction:1];
