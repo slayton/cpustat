@@ -148,7 +148,7 @@ static const int MAX_N_TASK = 5;
 -(void) timerExpired{
     [monitor pollCpuUsage];
 
-//    taskList = [monitor getRunningTasks];
+    taskList = [monitor getRunningTasks];
     [self updateDockIcon];
     [self populateDockMenu];
 }

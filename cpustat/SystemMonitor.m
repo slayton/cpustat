@@ -146,10 +146,10 @@
 }
 
 -(NSArray *) getRunningTasks{
-    
+//    NSLog(@"Getting running tasks");
     NSMutableArray *taskList = [[NSMutableArray alloc] initWithCapacity:150];
     char ps_cmd[256];
-    sprintf(ps_cmd, "ps AcrO %%cpu,%%mem");
+    sprintf(ps_cmd, "ps AcrO %%cpu,%%mem 2>/dev/null");
     //    printf("Executing command:%s\n", ps_cmd);
     
     const int NCHARS = 1024;
@@ -184,8 +184,9 @@
             
             result[0] = 0;
         }
+        pclose(fp);
     }
-//    NSLog(@"Returning task list with %d items", [taskList count]);
+
     return taskList;
 }
 @end
